@@ -1,0 +1,30 @@
+
+<h1>Goods</h1>
+<form  #f="ngForm" (ngSubmit)="submit(f)">
+  <div class="form-group">
+    <label for="category">Category</label>
+    <select id="category" class="form-control"  #firstName="ngModel" (change)="onCategoryChang()" [(ngModel)]="goods.category" name="products">
+     
+     <option *ngFor="let c of categories" value="{{c.catId}}">{{c.catName}}</option> 
+    </select>
+
+  </div>
+
+  
+  <div class="form-group">
+    <label for="product">Product</label>
+    <select id="product" class="form-control">
+    
+      <option *ngFor="let p of products" value="{{p.prodId}}">{{p.prodName}}</option>
+    </select>
+  </div>
+  <p>
+
+    {{f.value | json}}
+
+  </p>
+
+  <button class="btn btn-primary" (click)="OpenDialog()">Submit</button>
+
+
+</form>

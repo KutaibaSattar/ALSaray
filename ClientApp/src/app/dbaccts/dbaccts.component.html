@@ -1,0 +1,32 @@
+<h2>Accounts</h2>
+<p>
+  <a [routerLink]="['/accounts/new']" class="btn btn-primary">New Account</a>
+</p>
+
+
+  <table class='table table-striped' aria-labelledby="tableLabel">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Key</th>
+        <th>Name</th>
+        <th>Path</th>
+
+
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let a of myaccuts">
+        <td>{{a.acctId}}</td>
+        <td>{{a.acctKey}}</td>
+        <td>{{a.acctName}}</td>
+        <td>{{a.nodePath}}</td>
+
+        <td>
+          <a [routerLink]="['/accounts/new', a.nodePath]">View</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+

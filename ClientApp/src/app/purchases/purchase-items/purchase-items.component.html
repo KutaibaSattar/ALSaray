@@ -1,0 +1,50 @@
+<h4 class="display-4">Items</h4>
+<hr>
+<form #form="ngForm" autocomplete="off" (ngSubmit)="save(form)">
+ 
+<input type="hidden" name="itemName" #itemName="ngModel" [(ngModel)]="formData.itemName">
+  <input type="hidden" name="purchItemId" #purchItemId="ngModel" [(ngModel)]="formData.purchItemId">
+   <input type="hidden" name="prodId" #prodId="ngModel" [(ngModel)]="formData.prodId">
+  
+  <div class="form-group">
+        <label for=""> Items</label>
+        <select name="prodId" #prodId="ngModel" [(ngModel)]="formData.prodId" class="form-control" (change)="updateIemnName($event.target)"
+        [class.is.invalid]="!isValid && formData.prodId ==0"
+        >
+           <option [ngValue]="0">-Select-</option>
+           <option *ngFor="let item of productList" [ngValue]="item.prodId">{{item.prodName}}</option>
+        </select>
+    </div>
+  <div class="form-row">  
+    <div class="form-group col-md-6">
+        <label>Price</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <div class="input-group-text">AED</div>
+          </div>
+          <input name="price" type="number" number-converter #price="ngModel" [(ngModel)]="formData.price" class="form-control" (keyup)="updateTotal()"/>
+        </div>
+    </div>
+    <div class="form-group col-md-6">
+        <label>Quantity</label>
+        <input type="number" number-converter name="quantity" #quantity="ngModel" [(ngModel)]="formData.quantity" class="form-control" (keyup)="updateTotal()"
+        [class.is.invalid]="!isValid && formData.quantity ==0"
+        />
+    </div>
+  </div>
+  
+  <div class="form-group">
+    <label>Total</label>
+    <div class="input-group">
+      <div class="input-group-prepend">
+        <div class="input-group-text">AED</div>
+      </div>
+      <input name="total" #total="ngModel" [(ngModel)]="formData.total" class="form-control" readonly=true/>
+    </div>
+</div>
+<div class="form-group">
+    <button type="submit" class="btn-primary btn-dark"><i class="fa fa-database"></i> Submit </button>
+    <button type="button" class="btn-primary btn-outline-dark ml-1"><i class="fa fa-close"></i> Close </button>
+</div>
+</form>
+
