@@ -42,9 +42,10 @@ export class AppErrorHandler implements ErrorHandler{
 
   
 } */
-import { ErrorHandler, Inject, Injector, NgZone, isDevMode } from "@angular/core";
+import { ErrorHandler, Inject, Injector, NgZone, isDevMode, Injectable } from "@angular/core";
 import { ToastrService } from "ngx-toastr";
 
+@Injectable()
 export class AppErrorHandler implements ErrorHandler {
   constructor(@Inject(NgZone) private ngZone: NgZone, @Inject(Injector) private injector: Injector) { }
 

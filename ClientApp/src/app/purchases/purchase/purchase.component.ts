@@ -17,7 +17,7 @@ export class PurchaseComponent implements OnInit {
   myaccut: Mydbaccut[];
   isValid: boolean = true;
 
-  constructor(private service: PurchaseService,
+  constructor(public service: PurchaseService,
     private dialog: MatDialog,
     private mydbacctservice: MydbaccutService,
 

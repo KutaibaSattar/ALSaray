@@ -1,6 +1,6 @@
 
 <h1>Goods</h1>
-<form  #f="ngForm" (ngSubmit)="submit(f)">
+<form  #f="ngForm">
   <div class="form-group">
     <label for="category">Category</label>
     <select id="category" class="form-control"  #firstName="ngModel" (change)="onCategoryChang()" [(ngModel)]="goods.category" name="products">
@@ -24,7 +24,7 @@
 
   </p>
 
-  <button class="btn btn-primary" (click)="OpenDialog()">Submit</button>
+  <button class="btn btn-primary" >Submit</button>
 
 
 </form>
