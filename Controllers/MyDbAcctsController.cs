@@ -31,7 +31,7 @@ namespace ALSaray.Controllers
         }
 
 
-        
+         [HttpGet()]
         public async Task<IEnumerable<MyDBAcctsResources>> GetMyDBAccts()
         {
             var mydbaccts = await context.myDbAccts.ToListAsync();
@@ -41,12 +41,29 @@ namespace ALSaray.Controllers
            
         }
 
+         [HttpGet("{id}")]
+        public async Task<IActionResult> GetDbAccount(int id)
+        {
+            var account = await context.myDbAccts.FindAsync(id);
+
+            if (account == null)
+                return NotFound();
+
+            var accresource = mapper.Map<MyDbAcct, MyDBAcctsResources>(account);
+
+            return Ok(accresource);
+
+        }
+        
+        
+        
+        
         [HttpPost]
         public async Task<IActionResult> CreateDbAccounts(MyDBAcctsResources acctsResource )
 
         {
 
-             throw new Exception(); 
+             //throw new Exception(); 
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -98,8 +115,8 @@ namespace ALSaray.Controllers
         {
 
 
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
+            /* if (!ModelState.IsValid)
+                return BadRequest(ModelState); */
 
 
 
@@ -119,6 +136,23 @@ namespace ALSaray.Controllers
 
 
             return Ok(result);
+
+        }
+
+        [HttpDelete("{id}")]
+
+        public async Task<IActionResult> DeleteDbAccount(int id){
+
+            var dbaccount = await context.myDbAccts.FindAsync(id);
+
+           if (dbaccount == null)
+                return NotFound();
+           
+            context.Remove(dbaccount);
+
+            await context.SaveChangesAsync();
+
+            return Ok(id);
 
         }
 

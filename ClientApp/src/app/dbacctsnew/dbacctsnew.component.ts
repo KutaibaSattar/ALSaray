@@ -6,6 +6,8 @@ import { MydbaccutService } from '../shared/mydbaccut.service';
 //import { ToastrManager } from 'ng6-toastr-notifications';
 import { ToastrService } from 'ngx-toastr';
 import { timer } from 'rxjs';
+import { isNumber } from 'util';
+import { stringify } from 'querystring';
 
 
 @Component({
@@ -21,24 +23,43 @@ export class DbacctsnewComponent implements OnInit {
     acctName:'',
     nodePath:''
   }
-
+ 
   constructor(
    private route: ActivatedRoute, //read parameter
    private router: Router, // if invalid id the navigate to a adifferent page
    private mydbaccountService:MydbaccutService,
    //private toastr: ToastrManager,
-   private toastr: ToastrService
+   private toastr: ToastrService )  { 
    
-  )
-  
-  { 
-    route.params.subscribe(p => { this.dbaccounts.nodePath = p['id']})
 
   }
+
 
   ngOnInit() {
-  }
+    this.route.params.subscribe(p => { 
+     
+       if (p['id'].search('/') == -1){
+        this.dbaccounts.acctId = p['id'] 
+        this.mydbaccountService.getAcc(this.dbaccounts.acctId).subscribe(a=>{ this.dbaccounts = a as any})
+         
+       }
+        
+        else
+        this.dbaccounts.nodePath = p['id'] //Checking
+    
+    
+    })
 
+  }
+  delete(){
+   
+   
+     if (confirm("Are you sure ?")){
+       this.mydbaccountService.delete(this.dbaccounts.acctId).subscribe(()=> this.router.navigate(['/dbaccts']))
+ 
+     }
+ 
+   }
   submit() {
     
    /*  this.toastr.success('Hello world!', 'Toastr fun!',{
@@ -65,7 +86,28 @@ export class DbacctsnewComponent implements OnInit {
       )}) */
      
       //this.toastr.error('This is error toast.', 'Oops!')
-      this.mydbaccountService.Create(this.dbaccounts).subscribe(
-        x => console.log(x))
+     
+     if (this.dbaccounts.acctId == 0){
+      
+      var result$ = this.mydbaccountService.Create(this.dbaccounts)
+      
+      
+      //
+    }
+     else
+     {
+      
+      var result$ = this.mydbaccountService.Update(this.dbaccounts.acctId,this.dbaccounts)
+
+     }
+    
+     result$.subscribe(()=> {this.toastr.success("Data was sucessfully saved.");
+      
+      this.router.navigate(['/dbaccts'])
+     })
+
+    
   }
+
+  
 }

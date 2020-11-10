@@ -1,6 +1,7 @@
 <p>New Accounts</p>
+{{ dbaccounts | json }}
 
-<form (ngSubmit)="submit()">
+<form #f="ngForm" (ngSubmit)="submit()" novalidate>
 
   <div class="form-group">
     <label for="contactName">Key</label>
@@ -12,5 +13,10 @@
     <input id="contactName" type="text" class="form-control" [(ngModel)]="dbaccounts.acctName" name="acctName" required #acctName="ngModel">
     <div class="alert alert-danger" *ngIf="acctName.touched && !acctName.valid">Please specify the contact name.</div>
   </div>
-  <button class="btn btn-primary">Save</button>
+  <div class="btn-group mr-2" role="group" aria-label="First group" >
+    <button class="btn btn-outline-primary" [disabled]="!f.valid">Save</button>
+  </div>
+  <div class="btn-group mr-2" role="group" aria-label="Second group">
+  <button class="btn btn-outline-danger" type="button" (click)="delete()" [disabled]="!f.valid" aria-label="Second group">Delete</button>
+</div>
 </form>

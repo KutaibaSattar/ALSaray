@@ -1,7 +1,4 @@
-<h2>Accounts</h2>
-<p>
-  <a [routerLink]="['/accounts/new']" class="btn btn-primary">New Account</a>
-</p>
+<h3>Accounts</h3>
 
 
   <table class='table table-striped' aria-labelledby="tableLabel">
@@ -23,7 +20,16 @@
         <td>{{a.nodePath}}</td>
 
         <td>
-          <a [routerLink]="['/accounts/new', a.nodePath]">View</a>
+          
+          
+          <div class="btn-group mr-2" role="group" aria-label="Second group">
+            <a [routerLink]="['/accounts/new', a.acctId]"><button type="button" class="btn btn-success">Edit</button></a>
+         </div>
+         
+         <div *ngIf="a.nodePath.length <= 9 && a.nodePath.length >= 7 " class="btn-group mr-2" role="group" aria-label="First group">
+          <a [routerLink]="['/accounts/new', a.nodePath]"><button type="button" class="btn btn-primary">New</button></a>
+          
+        </div>
         </td>
       </tr>
     </tbody>

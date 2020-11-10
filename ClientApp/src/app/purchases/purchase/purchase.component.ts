@@ -1,3 +1,4 @@
+import {  ToastrService } from 'ngx-toastr';
 import { MydbaccutService } from './../../shared/mydbaccut.service';
 import { Mydbaccut } from './../../shared/mydbaccut.model';
 import { PurchaseItemsComponent } from './../purchase-items/purchase-items.component';
@@ -20,6 +21,7 @@ export class PurchaseComponent implements OnInit {
   constructor(public service: PurchaseService,
     private dialog: MatDialog,
     private mydbacctservice: MydbaccutService,
+    private toastr :ToastrService
 
   ) { }
 
@@ -81,6 +83,7 @@ export class PurchaseComponent implements OnInit {
 
     return this.isValid;
   }
+  
   OnSubmit(form: NgForm) {
 
     if (this.validateForm())
@@ -88,6 +91,8 @@ export class PurchaseComponent implements OnInit {
 
         this.service.saveOrUpdatePurchase().subscribe(res => {
         this.resetForm();
+        this.toastr.success("Submitted Successfuly","Bab ALSaray");  
+
         })
 
     }

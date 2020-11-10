@@ -17,7 +17,31 @@ export class MydbaccutService {
 
   Create(dbaccount) {
 
+   
     return this.http.post('/api/mydbaccts', dbaccount);
+
+  }
+
+  getAcc(id){
+
+    return this.http.get('/api/mydbaccts/'+id);
+
+  }
+
+
+  Update(id:number ,dbaccount ){
+
+    console.log(id ,dbaccount)
+
+      return this.http.put('/api/mydbaccts/'+id, dbaccount);
+
+  }
+
+  
+
+  delete(id:number ){
+
+    return this.http.delete('/api/mydbaccts/'+id);
 
   }
 

@@ -28,6 +28,7 @@ namespace ALSaray.Controllers
         [HttpGet()]
         public async Task<IActionResult> GetPurchase()
         {
+           
             var purchase = await context.purchases.Include(p=>p.purchaseItems).ToListAsync();
 
             if (purchase == null)

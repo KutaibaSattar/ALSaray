@@ -84,6 +84,13 @@ export class PurchaseItemsComponent implements OnInit {
       this.isValid = false;
       return this.isValid;
  }
+
+ close()
+ {
+
+  this.dialogRef.close()
+
+ }
  
 
 
