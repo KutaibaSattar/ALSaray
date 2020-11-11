@@ -8,7 +8,7 @@ using ALSaray.Models;
 
 namespace ALSaray.Controllers.Resource
 {
-    public class PurchaseResource
+    public class SavePurchaseResource
     {
 
         public int? purchId { get; set; }
@@ -22,16 +22,19 @@ namespace ALSaray.Controllers.Resource
 
         public Single? gtotal { get; set; }
 
+         public int? accId { get; set; }
 
-        // Master table
-        public MyDBAcctsResources dbAcct { get; set; }
-        //public string acctName { get; set;}
+       
+       public MyDbAcct dbAcct { get; set; }
+
+        public DateTime? LastUpdatedDate { get; set; }
+
 
 
 
 
         public ICollection<PurchaseItemsResource> purchaseItems { get; set; }
-        public PurchaseResource()
+        public SavePurchaseResource()
         {
             purchaseItems = new Collection<PurchaseItemsResource>();
 

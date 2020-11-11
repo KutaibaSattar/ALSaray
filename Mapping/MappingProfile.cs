@@ -30,7 +30,6 @@ namespace ALSaray.Mapping
 
 
            CreateMap<MyDbAcct, MyDBAcctsResources>();
-          
            CreateMap<MyDBAcctsResources, MyDbAcct>()
            .ForMember(a=>a.acctId, opt=>opt.Ignore());
             
@@ -39,17 +38,18 @@ namespace ALSaray.Mapping
             CreateMap<string, HierarchyId>().ConvertUsing(s => HierarchyId.Parse(s));
           
 
-            
-
-
-
-
-
-
-
+            CreateMap<Purchase, SavePurchaseResource>();
+            CreateMap<SavePurchaseResource, Purchase>()
+               .ForMember(p=>p.purchId,opt=>opt.Ignore()) ; //ignor mapping this field
+           
             CreateMap<Purchase, PurchaseResource>();
+            //.ForMember(pr=>pr.purchaseItems,opt=>opt.MapFrom(p=>p.purchaseItems));
            
             
+            CreateMap<Purchase, PurchaseResource>();
+            CreateMap<PurchaseResource, Purchase>();
+            
+           
             CreateMap<PurchaseItems, PurchaseItemsResource>();
             CreateMap<PurchaseItemsResource, PurchaseItems>();
 
@@ -59,8 +59,7 @@ namespace ALSaray.Mapping
 
 
 
-            CreateMap<PurchaseResource, Purchase>()
-               .ForMember(p=>p.purchId,opt=>opt.Ignore()) ; //ignor mapping this field
+            
             
             
             //CreateMap<PurchaseItemsResource, PurchaseItems>();

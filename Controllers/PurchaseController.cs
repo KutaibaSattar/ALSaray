@@ -44,7 +44,7 @@ namespace ALSaray.Controllers
 
 
         [HttpPost]
-      public async Task<IActionResult> CreatePurchase ([FromBody] PurchaseResource purchaseResource)
+      public async Task<IActionResult> CreatePurchase ([FromBody] SavePurchaseResource savePurchase)
           
         {
 
@@ -75,7 +75,7 @@ namespace ALSaray.Controllers
             }
             */
 
-            var purchase = mapper.Map<PurchaseResource,Purchase>(purchaseResource);
+            var purchase = mapper.Map<SavePurchaseResource,Purchase>(savePurchase);
 
             purchase.LastUpdatedDate = DateTime.Now;
             
@@ -90,15 +90,15 @@ namespace ALSaray.Controllers
 
             await context.SaveChangesAsync();
 
-            //var result =   mapper.Map<Purchase, PurchaseResource>(purchase);
+            var result =   mapper.Map<Purchase, PurchaseResource>(purchase);
             
             
                     
-            return Ok(purchase);
+            return Ok(result);
 
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePurchase(int id, [FromBody] PurchaseResource purchaseResource)
+        public async Task<IActionResult> UpdatePurchase(int id, [FromBody] SavePurchaseResource savePurchase)
         {
 
 
@@ -113,7 +113,7 @@ namespace ALSaray.Controllers
                 return NotFound();
 
 
-            mapper.Map<PurchaseResource, Purchase>(purchaseResource,purchase);
+            mapper.Map<SavePurchaseResource, Purchase>(savePurchase,purchase);
 
             purchase.LastUpdatedDate = DateTime.Now;
 
@@ -150,7 +150,10 @@ namespace ALSaray.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPurchase(int id)
         {
-            var purchase = await context.purchases.Include(p=>p.purchaseItems).SingleOrDefaultAsync(p=>p.purchId ==id);
+            var purchase = await context.purchases
+             .Include(a => a.dbAcct)
+            .Include(p=>p.purchaseItems)
+            .SingleOrDefaultAsync(p=>p.purchId ==id);
 
             if (purchase == null)
                 return NotFound();

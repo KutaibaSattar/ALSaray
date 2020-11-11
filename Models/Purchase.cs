@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.SqlTypes;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace ALSaray.Models
 {
@@ -24,7 +25,7 @@ namespace ALSaray.Models
 
         public Single? gtotal { get; set; }
 
-
+        [JsonIgnore]
         // Master table
         [Required]
         public int? accId { get; set; }
