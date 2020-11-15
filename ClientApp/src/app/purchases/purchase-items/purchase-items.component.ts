@@ -1,12 +1,12 @@
 import { MydbaccutService } from './../../shared/mydbaccut.service';
-import { Mydbaccut } from './../../shared/mydbaccut.model';
+import { Mydbaccut } from '../../models/mydbaccut.model';
 import { PurchaseService } from './../../shared/purchase.service';
 import { NgForm } from '@angular/forms';
 import { ProductService } from './../../shared/product.service';
-import { PurchaseItem } from './../../shared/purchase-item.model';
+import { PurchaseItem } from './../../models/purchase-item.model';
 import { Component, OnInit,Inject } from '@angular/core';
 import {MAT_DIALOG_DATA,MatDialogRef} from "@angular/material"
-import { Product } from 'src/app/shared/product.model';
+import { Product } from './../../models/product.model';
 
 
 

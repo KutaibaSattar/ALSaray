@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using ALSaray.Models;
 using ALSaray.Controllers.Resource;
 using AutoMapper;
+using ALSaray.Core;
 
 namespace ALSaray.Controllers
 {
@@ -17,26 +19,28 @@ namespace ALSaray.Controllers
     {
 
         private readonly IMapper mapper;
-        private readonly MyDBContext context;
+        
+        private readonly IALSarayRepository repository;
+        private readonly IUnitOfWork unitOfWork;
 
-        public PurchaseController(IMapper mapper,MyDBContext context  )
+        public PurchaseController(IMapper mapper,  IALSarayRepository repository, IUnitOfWork unitOfWork)
         {
+            this.unitOfWork = unitOfWork;
             this.mapper = mapper;
-            this.context = context;
+            this.repository = repository;
         }
 
         [HttpGet()]
-        public async Task<IActionResult> GetPurchase()
+        public async Task<IActionResult> GetPurchases()
         {
-           
-            var purchase = await context.purchases.Include(p=>p.purchaseItems).ToListAsync();
+
+            var purchase = await repository.GetPurchases() ;
 
             if (purchase == null)
                 return NotFound();
 
-         
 
-            return Ok(mapper.Map<List<Purchase>,List<PurchaseResource>>(purchase));
+            return Ok(mapper.Map<IEnumerable<Purchase>, IEnumerable<PurchaseResource>>(purchase));
 
         }
 
@@ -44,14 +48,14 @@ namespace ALSaray.Controllers
 
 
         [HttpPost]
-      public async Task<IActionResult> CreatePurchase ([FromBody] SavePurchaseResource savePurchase)
-          
+        public async Task<IActionResult> CreatePurchase([FromBody] SavePurchaseResource savePurchase)
+
         {
 
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
-
+            
 
             /*
             var model = await context.myDbAccts.FindAsync(purchaseResource.accId);
@@ -75,11 +79,14 @@ namespace ALSaray.Controllers
             }
             */
 
-            var purchase = mapper.Map<SavePurchaseResource,Purchase>(savePurchase);
+            var purchase = mapper.Map<SavePurchaseResource, Purchase>(savePurchase);
 
             purchase.LastUpdatedDate = DateTime.Now;
-            
-            context.purchases.Add(purchase);
+
+            repository.Add(purchase);
+
+
+
 
             //foreach (var item in purchaseResource.purchaseItems)
             //{
@@ -88,12 +95,14 @@ namespace ALSaray.Controllers
             //}
 
 
-            await context.SaveChangesAsync();
+            await unitOfWork.CompleteAsync();
 
-            var result =   mapper.Map<Purchase, PurchaseResource>(purchase);
-            
-            
-                    
+            purchase = await repository.GetPurchase(purchase.purchId);
+
+            var result = mapper.Map<Purchase, PurchaseResource>(purchase);
+
+
+
             return Ok(result);
 
         }
@@ -105,26 +114,25 @@ namespace ALSaray.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            var purchase = await repository.GetPurchase(id);
 
-
-            var purchase = await context.purchases.FindAsync(id);
 
             if (purchase == null)
                 return NotFound();
 
 
-            mapper.Map<SavePurchaseResource, Purchase>(savePurchase,purchase);
+            mapper.Map<Purchase, PurchaseResource>(purchase);
 
             purchase.LastUpdatedDate = DateTime.Now;
 
-           
-            await context.SaveChangesAsync();
 
-            //var result =   mapper.Map<Purchase, PurchaseResource>(purchase);
+            await unitOfWork.CompleteAsync();
+
+            var result = mapper.Map<Purchase, PurchaseResource>(purchase);
 
 
 
-            return Ok(purchase);
+            return Ok(result);
 
         }
 
@@ -133,13 +141,14 @@ namespace ALSaray.Controllers
 
         {
 
-            var purchase = await context.purchases.FindAsync(id);
+            var purchase = await repository.GetPurchase(id, includeRelated: false);
 
             if (purchase == null)
                 return NotFound();
-            
-            context.Remove(purchase);
-            await context.SaveChangesAsync();
+
+            repository.Remove(purchase);
+
+            await unitOfWork.CompleteAsync();
 
             return Ok(id);
 
@@ -150,10 +159,7 @@ namespace ALSaray.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetPurchase(int id)
         {
-            var purchase = await context.purchases
-             .Include(a => a.dbAcct)
-            .Include(p=>p.purchaseItems)
-            .SingleOrDefaultAsync(p=>p.purchId ==id);
+            var purchase = await repository.GetPurchase(id);
 
             if (purchase == null)
                 return NotFound();
@@ -162,100 +168,10 @@ namespace ALSaray.Controllers
 
             return Ok(purchaseresource);
 
+
         }
 
 
-        //private readonly MyDBContext _context;
 
-        //public PurchaseController(MyDBContext context)
-        //{
-        //    _context = context;
-        //}
-
-        //// GET: api/Purchase
-        //[HttpGet]
-        //public async Task<ActionResult<IEnumerable<Purchase>>> Getpurchases()
-        //{
-        //    return await _context.purchases.ToListAsync();
-        //}
-
-        //// GET: api/Purchase/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Purchase>> GetPurchase(int id)
-        //{
-        //    var purchase = await _context.purchases.FindAsync(id);
-
-        //    if (purchase == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return purchase;
-        //}
-
-        //// PUT: api/Purchase/5
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutPurchase(int id, Purchase purchase)
-        //{
-        //    if (id != purchase.purchId)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(purchase).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!PurchaseExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-        //// POST: api/Purchase
-        //// To protect from overposting attacks, enable the specific properties you want to bind to, for
-        //// more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        //[HttpPost]
-        //public async Task<ActionResult<Purchase>> PostPurchase(Purchase purchase)
-        //{
-        //    _context.purchases.Add(purchase);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetPurchase", new { id = purchase.purchId }, purchase);
-        //}
-
-        //// DELETE: api/Purchase/5
-        //[HttpDelete("{id}")]
-        //public async Task<ActionResult<Purchase>> DeletePurchase(int id)
-        //{
-        //    var purchase = await _context.purchases.FindAsync(id);
-        //    if (purchase == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.purchases.Remove(purchase);
-        //    await _context.SaveChangesAsync();
-
-        //    return purchase;
-        //}
-
-        //private bool PurchaseExists(int id)
-        //{
-        //    return _context.purchases.Any(e => e.purchId == id);
-        //}
     }
 }

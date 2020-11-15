@@ -26,14 +26,14 @@ namespace ALSaray.Controllers.Resource
         // Master table
         public MyDBAcctsResources dbAcct { get; set; }
         //public string acctName { get; set;}
-
-
-
+        //public ICollection < ProductResource> Products {get;set;}
+        //public ProductResource Products {get;set;}
 
         public ICollection<PurchaseItemsResource> purchaseItems { get; set; }
         public PurchaseResource()
         {
             purchaseItems = new Collection<PurchaseItemsResource>();
+            //Products = new Collection<ProductResource>();
 
         }
 

@@ -1,6 +1,6 @@
-import { Product } from './../shared/product.model';
+import { Product } from './../models/product.model';
 import { Component, OnInit } from '@angular/core';
-import { CategoryService } from '../services/category.service';
+import { CategoryService } from '../shared/category.service';
 
 @Component({
   selector: 'goods-form',

@@ -1,7 +1,7 @@
 import { ProductService } from './../shared/product.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Mydbaccut } from '../shared/mydbaccut.model';
+import { Mydbaccut } from '../models/mydbaccut.model';
 import { MydbaccutService } from '../shared/mydbaccut.service';
 //import { ToastrManager } from 'ng6-toastr-notifications';
 import { ToastrService } from 'ngx-toastr';

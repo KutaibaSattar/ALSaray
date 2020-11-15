@@ -40,9 +40,11 @@ namespace ALSaray.Models
         [ForeignKey("purchId")]
         public ICollection<PurchaseItems> purchaseItems {get;set;}
        
+
         public Purchase()
         {
                 purchaseItems = new Collection<PurchaseItems>();
+                
 
         }
 

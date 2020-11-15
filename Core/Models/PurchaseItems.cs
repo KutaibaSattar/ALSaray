@@ -17,6 +17,7 @@ namespace ALSaray.Models
                 
         // Master table
         public int? prodId { get; set; }
+        
         public Products Products { get; set; }
                 
         // Master table

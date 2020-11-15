@@ -1,4 +1,6 @@
+using ALSaray.Core;
 using ALSaray.Models;
+using ALSaray.Persistence;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,11 +32,15 @@ namespace ALSaray
 
 
           
-
+            services.AddScoped<IALSarayRepository, ALSarayRepository>();
+            
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            
 
             services.AddAutoMapper();
 
             services.AddControllersWithViews();
+           
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
@@ -42,9 +48,11 @@ namespace ALSaray
             });
 
             services.AddControllersWithViews()
-    .AddNewtonsoftJson(options =>
-    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-);
+                    .AddNewtonsoftJson(options =>
+                    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
+        
+            
+        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

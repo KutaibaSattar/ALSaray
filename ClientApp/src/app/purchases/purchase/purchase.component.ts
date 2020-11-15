@@ -1,6 +1,6 @@
 import {  ToastrService } from 'ngx-toastr';
 import { MydbaccutService } from './../../shared/mydbaccut.service';
-import { Mydbaccut } from './../../shared/mydbaccut.model';
+import { Mydbaccut } from '../../models/mydbaccut.model';
 import { PurchaseItemsComponent } from './../purchase-items/purchase-items.component';
 import { Component, OnInit } from '@angular/core';
 import { PurchaseService } from '../../shared/purchase.service';

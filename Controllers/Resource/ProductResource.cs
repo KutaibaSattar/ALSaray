@@ -8,10 +8,12 @@ namespace ALSaray.Controllers.Resource
     public class ProductResource
     {
        
-        public int prodId { get; set; }
+        public int? prodId { get; set; }
 
        
         public string prodName { get; set; }
+
+               
 
       
     }

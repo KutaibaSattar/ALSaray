@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Purchase } from './purchase.model';
-import { PurchaseItem } from './purchase-item.model';
+import { Purchase } from './../models/purchase.model';
+import { PurchaseItem } from './../models/purchase-item.model';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -38,4 +38,10 @@ export class PurchaseService {
     return this.http.delete('/api/purchase/' + id)
 
   }
+
+  getPurchases(){
+    return this.http.get('api/purchase')
+
+  }
+
 }

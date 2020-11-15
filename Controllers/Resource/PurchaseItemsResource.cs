@@ -13,8 +13,8 @@ namespace ALSaray.Controllers.Resource
 
         // Master table
         public int? prodId { get; set; }
-        //public Products Products { get; set; }
-
+       
+        public ProductResource Products { get; set; }
         // Master table
         public int? purchId { get; set; }
 

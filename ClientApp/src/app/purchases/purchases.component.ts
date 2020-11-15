@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Purchases } from '../models/Purchases.model';
+import { PurchaseService } from '../shared/purchase.service';
 
 @Component({
   selector: 'app-purchases',
@@ -6,10 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./purchases.component.css']
 })
 export class PurchasesComponent implements OnInit {
-
-  constructor() { }
+  
+  constructor(private purchaseService : PurchaseService) {  }
+  
+  purchases : Purchases [];
+  
 
   ngOnInit() {
+
+    this.purchaseService.getPurchases().subscribe(purchases  => this.purchases = purchases as any);
+    //this.purchaseService.getPurchases().subscribe((purchase :Purchases []) => this.purchases = purchase )
+
   }
 
 }
