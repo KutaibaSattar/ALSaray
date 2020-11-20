@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using ALSaray.Core.Models;
 
 namespace ALSaray.Mapping
 {
@@ -68,8 +69,8 @@ namespace ALSaray.Mapping
             //CreateMap<PurchaseResource, Purchase>()
             //    .ForMember(p=>p.purchaseItems,opt=>opt.MapFrom(pr=>pr.purchaseItems.Select(id=>new PurchaseItems {purchId = id})));
 
-
-
+           CreateMap<PurchaseQuereyResource,PurchaseQuery>();
+            CreateMap<PurchaseQuery,PurchaseQuereyResource>(); 
             
             
             

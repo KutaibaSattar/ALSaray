@@ -1,6 +1,39 @@
-<p>purchases works!</p>
 
-<table class ="table">
+<h3>Purchases</h3>
+
+<!-- {{ purchases | json }} -->
 
 
+
+<div class="well">
+  <button class="btn btn-primary" (click)="resetFilter()"> Reset </button>
+  <div class="form-group">
+    <label for="acct"> Account Name</label>
+    <select name="purchase" class="form-control" [(ngModel)]="filter.acctId" (change)="onFilterChange()">
+      <option value=""></option>
+      <option *ngFor="let acct of account" value="{{acct.acctId}}">{{acct.acctName}}</option>
+    </select>
+  </div>
+</div>
+
+
+
+<table class='table table-striped' aria-labelledby="tableLabel">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Inv.No</th>
+      <th>Payment</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let p of purchases">
+      <td>{{p.dbAcct.acctName}}</td>
+      <td>{{p.purchNo}}</td>
+      <td>{{p.pMethod}}</td>
+      <td>{{p.gtotal}}</td>
+
+    </tr>
+  </tbody>
 </table>

@@ -7,17 +7,16 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class PurchaseService {
-
+  private readonly purchaseEndpoint = 'api/purchase';
   formData: Purchase
   purchaseItems: PurchaseItem[];
-
+ 
 
   constructor(private http: HttpClient) { }
 
   saveOrUpdatePurchase() {
 
-    console.log("Hello");
-    var body = {
+        var body = {
 
       ...this.formData,
       purchaseItems : this.purchaseItems
@@ -26,7 +25,7 @@ export class PurchaseService {
     };
 
     console.log(body);
-    return this.http.post('/api/purchase/',body);
+    return this.http.post(this.purchaseEndpoint,body);
     
 
 
@@ -35,12 +34,29 @@ export class PurchaseService {
   delete(id){
 
     console.log(id)
-    return this.http.delete('/api/purchase/' + id)
+    return this.http.delete(this.purchaseEndpoint + id)
+
+  }
+  toQueryString(obj){
+    var parts = [];
+    for( var property in obj){
+      var value = obj[property];
+
+      if (value !=null && value !=undefined )
+        parts.push(encodeURIComponent(property) + '=' + encodeURIComponent(value))
+
+
+    }
+     return parts.join('&'); 
 
   }
 
-  getPurchases(){
-    return this.http.get('api/purchase')
+
+  getPurchases(filter){
+    
+   
+
+    return this.http.get(this.purchaseEndpoint + '?' + this.toQueryString(filter))
 
   }
 

@@ -10,6 +10,7 @@ using ALSaray.Models;
 using ALSaray.Controllers.Resource;
 using AutoMapper;
 using ALSaray.Core;
+using ALSaray.Core.Models;
 
 namespace ALSaray.Controllers
 {
@@ -30,10 +31,29 @@ namespace ALSaray.Controllers
             this.repository = repository;
         }
 
-        [HttpGet()]
-        public async Task<IActionResult> GetPurchases()
+        [HttpGet]
+        public async Task<IActionResult> GetPurchases([FromQuery] PurchaseQuereyResource filterResource)
         {
 
+            
+            var filter = mapper.Map<PurchaseQuereyResource, PurchaseQuery> (filterResource);
+            
+            var purchase = await repository.GetPurchases(filter) ;
+
+            if (purchase == null)
+                return NotFound();
+
+
+            return Ok(mapper.Map<IEnumerable<Purchase>, IEnumerable<PurchaseResource>>(purchase));
+
+        }
+       /*   [HttpGet()]
+        public async Task<IActionResult> GetPurchases(Filter filterResource)
+        {
+
+            
+            //var filter = mapper.Map<FilterResource, Filter> (filterResource);
+            
             var purchase = await repository.GetPurchases() ;
 
             if (purchase == null)
@@ -43,7 +63,7 @@ namespace ALSaray.Controllers
             return Ok(mapper.Map<IEnumerable<Purchase>, IEnumerable<PurchaseResource>>(purchase));
 
         }
-
+ */
 
 
 
@@ -107,7 +127,7 @@ namespace ALSaray.Controllers
 
         }
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdatePurchase(int id, [FromBody] SavePurchaseResource savePurchase)
+        public async Task<IActionResult> UpdatePurchase(int id, SavePurchaseResource savePurchase)
         {
 
 

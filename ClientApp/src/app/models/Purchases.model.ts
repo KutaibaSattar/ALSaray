@@ -15,7 +15,7 @@ export interface Purchases{
     purchNo : string;
     pMethod : string;
     gtotal : number;
-    myDBAcctsResource : {ID : number , Name : string};
+    dbAcct : {acctId : number , acctName : string};
     items : {prodId : number ,product : Product,  quantiy : number , price : number , total : number}[];
 
 

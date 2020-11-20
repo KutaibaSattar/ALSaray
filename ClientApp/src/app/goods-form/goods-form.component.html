@@ -3,6 +3,7 @@
 <form  #f="ngForm">
   <div class="form-group">
     <label for="category">Category</label>
+   
     <select id="category" class="form-control"  #firstName="ngModel" (change)="onCategoryChang()" [(ngModel)]="goods.category" name="products">
      
      <option *ngFor="let c of categories" value="{{c.catId}}">{{c.catName}}</option> 

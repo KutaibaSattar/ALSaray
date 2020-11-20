@@ -11,17 +11,18 @@
             <div class="input-group-text">#</div>
 
           </div>
-          <input name="purchNo" #purchNo="ngModel" [(ngModel)]="service.formData.purchNo" class="form-control" required minlength="4" />
-          
+          <input name="purchNo" #purchNo="ngModel" [(ngModel)]="service.formData.purchNo" class="form-control" required
+            minlength="4" />
+
         </div>
         <!--<div *ngIf="purchNo.invalid && (purchNo.dirty || purchNo.touched)" class="alert alert-danger">Requierd</div>-->
-        </div>
+      </div>
 
       <div class="form-group">
         <label>Supplier</label>
         <select name="accId" #accId="ngModel" [(ngModel)]="service.formData.accId" class="form-control"
-                [class.is.invalid]="service.formData.accId ==0" required>
-        <option *ngFor="let item of myaccut" [ngValue]="item.acctId">{{item.acctName}}</option>
+          [class.is.invalid]="service.formData.accId ==0" required>
+          <option *ngFor="let item of myaccut" [ngValue]="item.acctId">{{item.acctName}}</option>
         </select>
       </div>
     </div>
@@ -45,7 +46,7 @@
 
           </div>
           <input name="gtotal" #gTotal="ngModel" [(ngModel)]="service.formData.gtotal" class="form-control" readonly />
-          
+
         </div>
       </div>
 
@@ -60,18 +61,19 @@
       <tr>
 
 
-          <th>Item</th>
-          <th>Price</th>
-          <th>Quantity</th>
-          <th>Total</th>
-          <th>
-            <a class="btn btn-sm btn-success txt-white" (click)="AddOrEditPurchseItem(null,service.formData.purchId)"><i class="fa fa-plus"></i>Add Item</a>
-          </th>
+        <th>Item</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Total</th>
+        <th>
+          <a class="btn btn-sm btn-success txt-white" (click)="AddOrEditPurchseItem(null,service.formData.purchId)"><i
+              class="fa fa-plus"></i>Add Item</a>
+        </th>
 
       </tr>
 
     </thead>
-    
+
     <tbody>
       <tr *ngIf="service.purchaseItems.length==0" [class.is.invalid]="!isValid && service.purchaseItems.length==0">
         <td class="font-italic text-center" colspan="5">
@@ -86,8 +88,10 @@
         <td>{{item.quantity}}</td>
         <td>{{item.total}}</td>
         <td>
-          <a class="btn btn-sm btn-info txt-white" (click)="AddOrEditPurchseItem(i,service.formData.purchId)"><i class="fa fa-pencil"></i></a>
-          <a class="btn btn-sm btn-danger txt-white ml-1" (click)="OnDeletePurchseItem(item.purchItemId,i)"><i class="fa fa-trash"></i></a>
+          <a class="btn btn-sm btn-info txt-white" (click)="AddOrEditPurchseItem(i,service.formData.purchId)"><i
+              class="fa fa-pencil"></i></a>
+          <a class="btn btn-sm btn-danger txt-white ml-1" (click)="OnDeletePurchseItem(item.purchItemId,i)"><i
+              class="fa fa-trash"></i></a>
 
         </td>
 
@@ -100,7 +104,8 @@
 
   </p>
   <div class="form-group">
-    <button type="submit" [disabled]="!form.valid"  class="btn-primary btn-dark"><i class="fa fa-database"></i> Submit </button>
+    <button type="submit" [disabled]="!form.valid" class="btn-primary btn-dark"><i class="fa fa-database"></i> Submit
+    </button>
   </div>
 
 </form>
